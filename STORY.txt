@@ -1,0 +1,7 @@
+23/May/2016:
+    Next steps:
+      - Add new/guest player functionality to PlayerSelector
+      - Display Cards
+      - Add draw functionality
+      - Add expression evaluation functionality
+      - Add expression verification
