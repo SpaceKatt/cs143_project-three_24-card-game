@@ -21,7 +21,8 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 
 /**
- * This class represents a Deck of Cards
+ * This class represents a Deck of Cards. Hearts (1-13), 
+     * Diamonds (14-26), Clubs (27-39), then Spades(40-52).
  * 
  * Card images found at: 
  *     http://opengameart.org/content/playing-cards-vector-png
@@ -29,8 +30,8 @@ import javax.swing.ImageIcon;
  * Project: 24 Card Game
  * Platform: jdk 1.8.0_14; NetBeans IDE 8.1; Windows 10
  * Course: CS 143
- * Created on May 23, 2016, 3:03 PM
- * Revised on May 23, 2016, 3:59 PM
+ * Created on May 23, 2016, 4:02 PM
+ * Revised on May 23, 2016, 5:07 PM
  * 
  * @author Thomas Kercheval
  */

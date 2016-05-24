@@ -25,7 +25,7 @@ package card_game_24.objects;
  * Created on May 23, 2016, 2:57 PM
  * Revised on May 23, 2016, 3:03 PM
  * 
- * @author thomas.kercheval
+ * @author Thomas Kercheval
  */
 public class Person {
     /** The name of this person */

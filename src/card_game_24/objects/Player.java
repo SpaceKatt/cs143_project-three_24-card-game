@@ -17,15 +17,17 @@
 package card_game_24.objects;
 
 /**
- * This class represents a Person, with a name.
+ * This class represents a Player, with a name, total score, high score,
+ * total number of games played, and total possible points that could have
+ * been achieved for every one of those games.
  * 
  * Project: 24 Card Game
  * Platform: jdk 1.8.0_14; NetBeans IDE 8.1; Windows 10
  * Course: CS 143
  * Created on May 23, 2016, 3:03 PM
- * Revised on May 23, 2016, 3: PM
+ * Revised on May 23, 2016, 3:59 PM
  * 
- * @author thomas.kercheval
+ * @author Thomas Kercheval
  */
 public class Player extends Person {
     /** The highest score this player achieved in a hand. */

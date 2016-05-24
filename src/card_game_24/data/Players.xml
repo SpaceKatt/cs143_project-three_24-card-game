@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Players>
+  <Player>
+    <name>Thomas Kercheval</name>
+    <highScore>3</highScore>
+    <totalScore>15</totalScore>
+    <possibleScore>0</possibleScore>
+    <totalGames>9</totalGames>
+  </Player>
+</Players>
