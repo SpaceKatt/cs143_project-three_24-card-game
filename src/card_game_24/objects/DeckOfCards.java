@@ -16,6 +16,10 @@
  */
 package card_game_24.objects;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.HashMap;
 import java.util.Random;
 import javax.swing.ImageIcon;
@@ -40,12 +44,14 @@ public class DeckOfCards {
      * ImageIcons of all the cards in the deck. Hearts (1-13), 
      * Diamonds (14-26), Clubs (27-39), then Spades(40-52).
      */
-    private HashMap cards;
+    private final HashMap<String, ImageIcon> cards;
     /**
      * The current hand being played, integer numbers 1-52 representing
      * which card is in play.
      */
     private int[] hand;
+    private static final int IMAGE_WIDTH = 100;
+    private static final int IMAGE_HEIGHT = 145;
     
     /**
      * Default constructor, creates the deck of cards and draws a hand to play.
@@ -116,7 +122,7 @@ public class DeckOfCards {
      * card value, though 13 will map to zero.
      * @return A HashMap with playing card ImageIcons.
      */
-    private HashMap createCards() {
+    private HashMap<String, ImageIcon> createCards() {
         HashMap<String, ImageIcon> deck = new HashMap<>();
         String pathStub = "src/card_game_24/images/cards/";
         String ext = ".png";
@@ -172,6 +178,38 @@ public class DeckOfCards {
         deck.put("50", new ImageIcon(pathStub + "jack_of_spades" + ext));
         deck.put("51", new ImageIcon(pathStub + "queen_of_spades" + ext));
         deck.put("52", new ImageIcon(pathStub + "king_of_spades" + ext));
+        
+        rescaleDeckImages(deck);
         return deck;
+    }
+    
+    private void rescaleDeckImages(HashMap<String, ImageIcon> deck) {
+        for (int i = 1; i < 53; i++) {
+            String index = String.valueOf(i);
+            ImageIcon image = deck.get(index);
+            Image resizedImage = getScaledImage(image.getImage(), IMAGE_WIDTH, 
+                    IMAGE_HEIGHT);
+            deck.put(index, new ImageIcon(resizedImage));
+        }
+    }
+    
+    /**
+     * Scales a single Image to the correct size for our application.
+     * @param srcImg The image we wish to rescale.
+     * @param width The width we wish our image to be.
+     * @param height The height we wish our image to be.
+     * @return The rescaled Image.
+     */
+    private Image getScaledImage(Image srcImg, int width, int height){
+        BufferedImage resizedImg = new BufferedImage(width, height, 
+                BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = resizedImg.createGraphics();
+
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, 
+                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2.drawImage(srcImg, 0, 0, width, height, null);
+        g2.dispose();
+
+        return resizedImg;
     }
 }

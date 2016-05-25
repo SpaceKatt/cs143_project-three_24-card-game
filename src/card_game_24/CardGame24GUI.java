@@ -82,7 +82,6 @@ public class CardGame24GUI extends javax.swing.JFrame {
         HashMap<String, ImageIcon> imageMap = this.deck.getDeck();
         cardOneLabel.setIcon(imageMap.get(String.valueOf(hand[0])));
         cardTwoLabel.setIcon(imageMap.get(String.valueOf(hand[1])));
-        System.out.println(imageMap.get(String.valueOf(hand[0])));
         cardThreeLabel.setIcon(imageMap.get(String.valueOf(hand[2])));
         cardFourLabel.setIcon(imageMap.get(String.valueOf(hand[3])));
     }
@@ -145,6 +144,7 @@ public class CardGame24GUI extends javax.swing.JFrame {
         solutionButton = new javax.swing.JButton();
         solutionTextField = new javax.swing.JTextField();
         validLabel = new javax.swing.JLabel();
+        shuffleButton = new javax.swing.JButton();
         expressionPanel = new javax.swing.JPanel();
         expressionLabel = new javax.swing.JLabel();
         expressionTextField = new javax.swing.JTextField();
@@ -159,8 +159,11 @@ public class CardGame24GUI extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(480, 300));
+        setResizable(false);
+        setSize(new java.awt.Dimension(500, 400));
 
-        upperControlPanel.setLayout(new java.awt.GridLayout(1, 3));
+        upperControlPanel.setLayout(new java.awt.GridLayout(1, 4));
 
         solutionButton.setText("Find Solution(s)");
         upperControlPanel.add(solutionButton);
@@ -170,6 +173,14 @@ public class CardGame24GUI extends javax.swing.JFrame {
 
         validLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         upperControlPanel.add(validLabel);
+
+        shuffleButton.setText("Shuffle");
+        shuffleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                shuffleButtonActionPerformed(evt);
+            }
+        });
+        upperControlPanel.add(shuffleButton);
 
         getContentPane().add(upperControlPanel, java.awt.BorderLayout.NORTH);
 
@@ -185,6 +196,7 @@ public class CardGame24GUI extends javax.swing.JFrame {
 
         getContentPane().add(expressionPanel, java.awt.BorderLayout.SOUTH);
 
+        displayPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         displayPanel.setLayout(new java.awt.GridLayout(1, 4, 10, 10));
         displayPanel.add(cardOneLabel);
         displayPanel.add(cardTwoLabel);
@@ -203,6 +215,11 @@ public class CardGame24GUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void shuffleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shuffleButtonActionPerformed
+        this.deck.resetHand();
+        displayCards();
+    }//GEN-LAST:event_shuffleButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,6 +269,7 @@ public class CardGame24GUI extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JButton shuffleButton;
     private javax.swing.JButton solutionButton;
     private javax.swing.JTextField solutionTextField;
     private javax.swing.JPanel upperControlPanel;
