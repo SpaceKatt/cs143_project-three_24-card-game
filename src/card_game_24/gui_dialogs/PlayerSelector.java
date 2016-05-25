@@ -27,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import card_game_24.utilities.PlayerXMLFileWriter;
+import javax.swing.JOptionPane;
 
 /**
  * A form by which the User may select Player to play the 24 Card Game with.
@@ -54,7 +55,7 @@ public class PlayerSelector extends javax.swing.JDialog {
         initComponents();
         this.setModal(true);
         setLocationRelativeTo(null);
-        this.getRootPane().setDefaultButton(this.openButton);
+        this.getRootPane().setDefaultButton(this.selectButton);
 //        this.setIconImage(Toolkit.getDefaultToolkit().
 //                getImage("src/parcelhub/images/238be5e.png"));
         this.playerObjects = players;
@@ -183,7 +184,8 @@ public class PlayerSelector extends javax.swing.JDialog {
         controlPanel = new javax.swing.JPanel();
         newButton = new javax.swing.JButton();
         openCancelPanel = new javax.swing.JPanel();
-        openButton = new javax.swing.JButton();
+        selectButton = new javax.swing.JButton();
+        guestButton = new javax.swing.JButton();
         exitButton = new javax.swing.JButton();
         titlePanel = new javax.swing.JPanel();
         parcelhubLabel = new javax.swing.JLabel();
@@ -206,7 +208,7 @@ public class PlayerSelector extends javax.swing.JDialog {
             displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(displayPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
                 .addContainerGap())
         );
         displayPanelLayout.setVerticalGroup(
@@ -231,17 +233,25 @@ public class PlayerSelector extends javax.swing.JDialog {
         });
         controlPanel.add(newButton);
 
-        openCancelPanel.setLayout(new java.awt.GridLayout(1, 2));
+        openCancelPanel.setLayout(new java.awt.GridLayout(1, 3));
 
-        openButton.setMnemonic('o');
-        openButton.setText("Open");
-        openButton.setToolTipText("Open selected database");
-        openButton.addActionListener(new java.awt.event.ActionListener() {
+        selectButton.setMnemonic('o');
+        selectButton.setText("Select");
+        selectButton.setToolTipText("Open selected database");
+        selectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openButtonActionPerformed(evt);
+                selectButtonActionPerformed(evt);
             }
         });
-        openCancelPanel.add(openButton);
+        openCancelPanel.add(selectButton);
+
+        guestButton.setText("Guest");
+        guestButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guestButtonActionPerformed(evt);
+            }
+        });
+        openCancelPanel.add(guestButton);
 
         exitButton.setMnemonic('c');
         exitButton.setText("Cancel");
@@ -296,10 +306,10 @@ public class PlayerSelector extends javax.swing.JDialog {
      * Dialog.
      * @param evt The event which triggers this listener.
      */
-    private void openButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openButtonActionPerformed
+    private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
         selectedPlayer = playerObjects.get(playerList.getSelectedIndex());
         this.dispose();
-    }//GEN-LAST:event_openButtonActionPerformed
+    }//GEN-LAST:event_selectButtonActionPerformed
 
     /**
      * Generates a new, unique name by calling generateFileName() and closes
@@ -307,20 +317,55 @@ public class PlayerSelector extends javax.swing.JDialog {
      * @param evt The event which triggers this listener.
      */
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-        this.selectedPlayer = null;
-        this.dispose();
+        String playerName = JOptionPane.showInputDialog(this, 
+                "New Player Name:",
+                "Enter a Valid name",
+                JOptionPane.PLAIN_MESSAGE);
+        if (playerName == null) {
+            JOptionPane.showMessageDialog(null, "No name given.",
+                    "New player not created...",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (isValidName(playerName)) {
+            this.selectedPlayer = new Player(playerName);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, 
+                    "Invalid name given."
+                  + "\nName cannot be 'Guest'",
+                    "New player not created...",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_newButtonActionPerformed
 
+    /**
+     * Creates a guest account for this game.
+     * @param evt The event which triggers this listener.
+     */
+    private void guestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guestButtonActionPerformed
+        this.selectedPlayer = new Player("Guest");
+        this.dispose();
+    }//GEN-LAST:event_guestButtonActionPerformed
+
+    /**
+     * Determines if a given name is valid for our application.
+     * @param name The name we are validating.
+     * @return True if the name is valid.
+     */
+    private boolean isValidName(String name) {
+        return !name.equals("Guest") && !name.equals("guest");
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel controlPanel;
     private javax.swing.JPanel displayPanel;
     private javax.swing.JButton exitButton;
+    private javax.swing.JButton guestButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton newButton;
-    private javax.swing.JButton openButton;
     private javax.swing.JPanel openCancelPanel;
     private javax.swing.JLabel parcelhubLabel;
     private javax.swing.JList<String> playerList;
+    private javax.swing.JButton selectButton;
     private javax.swing.JPanel titlePanel;
     // End of variables declaration//GEN-END:variables
 }

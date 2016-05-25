@@ -20,7 +20,10 @@ import card_game_24.gui_dialogs.PlayerSelector;
 import card_game_24.objects.DeckOfCards;
 import card_game_24.objects.Player;
 import card_game_24.utilities.PlayerXMLFileReader;
+import card_game_24.utilities.PlayerXMLFileWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import javax.swing.ImageIcon;
 
 /**
  * This class is the Main GUI for the 24 Card Game Project, for my Java 143
@@ -53,7 +56,9 @@ public class CardGame24GUI extends javax.swing.JFrame {
         this.deck = new DeckOfCards();
         this.players = readPlayersFromFile();
         this.player = selectPlayer();
+        savePlayers();
         initComponents();
+        displayCards();
     }
 
     /**
@@ -72,6 +77,16 @@ public class CardGame24GUI extends javax.swing.JFrame {
         return users;
     }
     
+    private void displayCards() {
+        int[] hand = this.deck.getHand();
+        HashMap<String, ImageIcon> imageMap = this.deck.getDeck();
+        cardOneLabel.setIcon(imageMap.get(String.valueOf(hand[0])));
+        cardTwoLabel.setIcon(imageMap.get(String.valueOf(hand[1])));
+        System.out.println(imageMap.get(String.valueOf(hand[0])));
+        cardThreeLabel.setIcon(imageMap.get(String.valueOf(hand[2])));
+        cardFourLabel.setIcon(imageMap.get(String.valueOf(hand[3])));
+    }
+    
     /**
      * Spawns a JDialog which allows the user to select a User out of all 
      * existing players so that the application may track their stats
@@ -81,7 +96,40 @@ public class CardGame24GUI extends javax.swing.JFrame {
     private Player selectPlayer() {
         PlayerSelector selector = new PlayerSelector(this.players);
         selector.setVisible(true);
-        return selector.getPlayer();
+        if (selector.getPlayer() != null) {
+            Player selectedPlayer = selector.getPlayer();
+            if (!players.contains(selectedPlayer) 
+                    && !selectedPlayer.getName().equals("Guest")) {
+                players.add(selectedPlayer);
+            }
+            return selectedPlayer;
+        } else {
+            if (this.player == null) {
+                System.exit(0);
+            }
+        }
+        return this.player;
+    }
+    
+    /**
+     * Saves the Statistics of every player as long as the current player
+     * is not using the Guest Account.
+     */
+    private void savePlayers() {
+        if (!player.getName().equals("Guest")) {
+            writePlayersToFile(this.filePath, this.players);
+        }
+    }
+    
+    /**
+     * Writes the ArrayList `players` to an XML Database.
+     * @param file The file path of the XML Database we will save our Players
+     * information to.
+     * @param arraylist the ArrayList of the players we wish to save.
+     */
+    private void writePlayersToFile(String file, ArrayList arraylist) {
+        PlayerXMLFileWriter writer = new PlayerXMLFileWriter(arraylist, file);
+        writer.createXMLFile();
     }
     
     /**

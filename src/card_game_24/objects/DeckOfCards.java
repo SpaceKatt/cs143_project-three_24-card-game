@@ -117,8 +117,8 @@ public class DeckOfCards {
      * @return A HashMap with playing card ImageIcons.
      */
     private HashMap createCards() {
-        HashMap deck = new HashMap();
-        String pathStub = "src/card_game_24/images/cards";
+        HashMap<String, ImageIcon> deck = new HashMap<>();
+        String pathStub = "src/card_game_24/images/cards/";
         String ext = ".png";
         deck.put("1", new ImageIcon(pathStub + "ace_of_hearts" + ext));
         deck.put("2", new ImageIcon(pathStub + "2_of_hearts" + ext));
