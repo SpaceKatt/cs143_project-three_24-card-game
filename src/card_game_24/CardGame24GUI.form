@@ -2,17 +2,140 @@
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
+    <Menu class="javax.swing.JMenuBar" name="cardsMenuBar">
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="jMenu1">
+        <Menu class="javax.swing.JMenu" name="fileMenu">
           <Properties>
+            <Property name="mnemonic" type="int" value="102"/>
             <Property name="text" type="java.lang.String" value="File"/>
+            <Property name="toolTipText" type="java.lang.String" value="Perform actions regarding this application"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="saveMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Save"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator5">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="printMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Print GUI"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="printStatisticsMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Print Statistics"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator3">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="exitMenuItem">
+              <Properties>
+                <Property name="mnemonic" type="int" value="120"/>
+                <Property name="text" type="java.lang.String" value="Exit"/>
+                <Property name="toolTipText" type="java.lang.String" value="Exit the application"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exitMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu2">
+        <Menu class="javax.swing.JMenu" name="gameMenu">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Edit"/>
+            <Property name="mnemonic" type="int" value="103"/>
+            <Property name="text" type="java.lang.String" value="Game"/>
+            <Property name="toolTipText" type="java.lang.String" value="Perform actions that are relevant to this game."/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="switchUserMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Switch User"/>
+                <Property name="toolTipText" type="java.lang.String" value="Switch which user is currently playing"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="switchUserMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Edit Username"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="deleteUserMenuItem">
+              <Properties>
+                <Property name="mnemonic" type="int" value="100"/>
+                <Property name="text" type="java.lang.String" value="Delete Current User"/>
+                <Property name="toolTipText" type="java.lang.String" value="Delete user that is currently player"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteUserMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="searchUserMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Search User"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator4">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="statisticsMenuItem">
+              <Properties>
+                <Property name="mnemonic" type="int" value="105"/>
+                <Property name="text" type="java.lang.String" value="Display Statistics"/>
+                <Property name="toolTipText" type="java.lang.String" value="Display the current user&apos;s statistics"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="shffleMenuItem">
+              <Properties>
+                <Property name="mnemonic" type="int" value="115"/>
+                <Property name="text" type="java.lang.String" value="Shuffle"/>
+                <Property name="toolTipText" type="java.lang.String" value="Shuffle the current hand (display different cards)"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="evaulateMenuItem">
+              <Properties>
+                <Property name="mnemonic" type="int" value="118"/>
+                <Property name="text" type="java.lang.String" value="Evaluate"/>
+                <Property name="toolTipText" type="java.lang.String" value="Evalutate an Expression"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="solutionsMenuItem">
+              <Properties>
+                <Property name="mnemonic" type="int" value="115"/>
+                <Property name="text" type="java.lang.String" value="Find all solutions"/>
+                <Property name="toolTipText" type="java.lang.String" value="Finds all he solutions to the current hand and displays them"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="combinationMenuItem">
+              <Properties>
+                <Property name="mnemonic" type="int" value="99"/>
+                <Property name="text" type="java.lang.String" value="Enter Combination"/>
+                <Property name="toolTipText" type="java.lang.String" value="Find all solutions to a card combination of your choosing!"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="helpMenu">
+          <Properties>
+            <Property name="mnemonic" type="int" value="104"/>
+            <Property name="text" type="java.lang.String" value="Help"/>
+            <Property name="toolTipText" type="java.lang.String" value="Help has arrived"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="aboutMenuItem">
+              <Properties>
+                <Property name="mnemonic" type="int" value="116"/>
+                <Property name="text" type="java.lang.String" value="About"/>
+                <Property name="toolTipText" type="java.lang.String" value="About this project"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
         </Menu>
       </SubComponents>
     </Menu>
@@ -28,7 +151,7 @@
     </Property>
   </Properties>
   <SyntheticProperties>
-    <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
+    <SyntheticProperty name="menuBar" type="java.lang.String" value="cardsMenuBar"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
@@ -61,7 +184,9 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="solutionButton">
           <Properties>
+            <Property name="mnemonic" type="int" value="115"/>
             <Property name="text" type="java.lang.String" value="Find Solution(s)"/>
+            <Property name="toolTipText" type="java.lang.String" value="Finds all he solutions to the current hand and displays them"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="solutionTextField">
@@ -72,11 +197,14 @@
         <Component class="javax.swing.JLabel" name="validLabel">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="11"/>
+            <Property name="toolTipText" type="java.lang.String" value="Will tell you if your expression is valid, incorrect, of invalid"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="shuffleButton">
           <Properties>
+            <Property name="mnemonic" type="int" value="115"/>
             <Property name="text" type="java.lang.String" value="Shuffle"/>
+            <Property name="toolTipText" type="java.lang.String" value="Shuffle the current hand (display different cards)"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="shuffleButtonActionPerformed"/>
@@ -103,11 +231,19 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="expressionTextField">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Enter a valid infix experssion"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="expressionButton">
           <Properties>
+            <Property name="mnemonic" type="int" value="118"/>
             <Property name="text" type="java.lang.String" value="Evaluate"/>
+            <Property name="toolTipText" type="java.lang.String" value="Evalutate an Expression"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="expressionButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -133,12 +269,24 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JLabel" name="cardOneLabel">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="The first card you many use..."/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="cardTwoLabel">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="The second card you many use..."/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="cardThreeLabel">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="The third card you many use..."/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="cardFourLabel">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="The fourth card you many use..."/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

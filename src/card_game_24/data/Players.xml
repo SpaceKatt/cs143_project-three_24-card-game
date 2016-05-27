@@ -3,15 +3,8 @@
   <Player>
     <name>Thomas Kercheval</name>
     <highScore>3</highScore>
-    <totalScore>15</totalScore>
+    <totalScore>18</totalScore>
     <possibleScore>0</possibleScore>
-    <totalGames>9</totalGames>
-  </Player>
-  <Player>
-    <name>balls</name>
-    <highScore>0</highScore>
-    <totalScore>0</totalScore>
-    <possibleScore>0</possibleScore>
-    <totalGames>0</totalGames>
+    <totalGames>25</totalGames>
   </Player>
 </Players>

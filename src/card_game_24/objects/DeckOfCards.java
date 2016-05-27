@@ -183,6 +183,10 @@ public class DeckOfCards {
         return deck;
     }
     
+    /**
+     * Needs Javadoc
+     * @param deck 
+     */
     private void rescaleDeckImages(HashMap<String, ImageIcon> deck) {
         for (int i = 1; i < 53; i++) {
             String index = String.valueOf(i);
