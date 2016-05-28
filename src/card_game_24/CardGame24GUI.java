@@ -23,6 +23,7 @@ import card_game_24.objects.DeckOfCards;
 import card_game_24.objects.EmptyStackException;
 import card_game_24.objects.FullStackException;
 import card_game_24.objects.Player;
+import static card_game_24.utilities.EvaluateExpression.evaluateInfixExpression;
 import static card_game_24.utilities.EvaluateExpression.insertBlanks;
 import card_game_24.utilities.PlayerXMLFileReader;
 import card_game_24.utilities.PlayerXMLFileWriter;
@@ -92,6 +93,7 @@ public class CardGame24GUI extends javax.swing.JFrame {
     
     /**
      * Displays the four cards currently in play on the main displayPanel.
+     * Resets the redundancy validator with the current had being displayed.
      */
     private void displayCards() {
         int[] hand = this.deck.getHand();
@@ -105,6 +107,11 @@ public class CardGame24GUI extends javax.swing.JFrame {
         displayUserStats();
     }
     
+    /**
+     * Displays the basic user statistics on the right hand side of the main
+     * GUI. There are not the comprehensive statistics that may be accessed
+     * via the game menu, these are much more basic.
+     */
     private void displayUserStats() {
         this.userTextField.setText(this.player.getName());
         this.currentScoreTextField.setText("" + this.currentScore);
@@ -169,7 +176,7 @@ public class CardGame24GUI extends javax.swing.JFrame {
      * @param express The expression we are validating.
      * @return True if the numbers used in the expression are valid.
      */
-    private boolean validExpression(String express) {
+    private boolean validNumsInExpression(String express) {
         express = insertBlanks(express);
         express = express.replaceAll("\\D+"," ");
         String[] numberStrings = express.split(" ");
@@ -514,33 +521,48 @@ public class CardGame24GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Shuffles the deck, calls the displayCards method, then saves our
+     * players.
+     * @param evt 
+     */
     private void shuffleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shuffleButtonActionPerformed
         this.player.incrementTotalGames();
-        this.player.addPossibleScore(this.currentScore);
+//        this.player.addPossibleScore(...); // Implement this after generation
         this.currentScore = 0;
         this.deck.resetHand();
         displayCards();
         savePlayers();
     }//GEN-LAST:event_shuffleButtonActionPerformed
 
+    /**
+     * Evaluates an expression, determines whether it is valid or redundant.
+     * If it is unique and valid then the current score and the player's
+     * score is incremented. If the current score is larger that the player's
+     * high score, the high score is updated.
+     * @param evt 
+     */
     private void expressionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expressionButtonActionPerformed
         String expression = this.expressionTextField.getText();
         if (expression != null && expression.length() > 0) {
             try {
-                double number = EvaluateExpression.evaluateInfixExpression(expression);
-                if (!validExpression(expression)) {
+                double number = evaluateInfixExpression(expression);
+                if (!validNumsInExpression(expression)) {
                     JOptionPane.showMessageDialog(null,
                         "You may only use the numbers given on the cards",
                         "Invalid expression.",
                         JOptionPane.INFORMATION_MESSAGE);
-                } else if (!this.redundoValido.validateExpression(expression)) { 
+                } else if (!redundoValido.validateExpression(expression)) { 
                     JOptionPane.showMessageDialog(null,
                         "You may only use expressions you haven't used before."
-                       + "\nYou have used: \n\n" 
-                       + this.redundoValido.getGeneralForms(),
+                       + "\n\nYou have used: \n\n" 
+                       + redundoValido.getGeneralForms(),
                         "Redundant expression.",
                         JOptionPane.INFORMATION_MESSAGE);
                 } else if (EvaluateExpression.closeEnough(number, 24.0)) {
+                    // If the double returned by evaluating our expression
+                    // is close enough to 24 as to take into consideration 
+                    // round off error
                     this.validLabel.setText("Valid Expression");
                     this.currentScore++;
                     this.player.addTotalScore(1);
@@ -560,6 +582,10 @@ public class CardGame24GUI extends javax.swing.JFrame {
         displayUserStats();
     }//GEN-LAST:event_expressionButtonActionPerformed
 
+    /**
+     * Exits the program.
+     * @param evt 
+     */
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         shuffleButtonActionPerformed(evt);
         savePlayers();
@@ -567,12 +593,21 @@ public class CardGame24GUI extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
+    /**
+     * Allows the player to switch which user is currently being played.
+     * @param evt 
+     */
     private void switchUserMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchUserMenuItemActionPerformed
         shuffleButtonActionPerformed(evt);
         this.player = selectPlayer();
         savePlayers();
     }//GEN-LAST:event_switchUserMenuItemActionPerformed
 
+    /**
+     * Allows the user to delete the current Player. This action is confirmed
+     * before it is performed.
+     * @param evt 
+     */
     private void deleteUserMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteUserMenuItemActionPerformed
         int reply = JOptionPane.showConfirmDialog(this, "Are you sure?",
                 "Confirm Parcel deletion...",
@@ -589,14 +624,26 @@ public class CardGame24GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteUserMenuItemActionPerformed
 
+    /**
+     * Shuffles the deck by calling the corresponding button. 
+     * @param evt 
+     */
     private void shffleMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shffleMenuItemActionPerformed
         shuffleButtonActionPerformed(evt);
     }//GEN-LAST:event_shffleMenuItemActionPerformed
 
+    /**
+     * Evaluates the current expression by calling the corresponding button.
+     * @param evt 
+     */
     private void evaulateMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_evaulateMenuItemActionPerformed
         expressionButtonActionPerformed(evt);
     }//GEN-LAST:event_evaulateMenuItemActionPerformed
 
+    /**
+     * Allows the user to edit the Current player's name.
+     * @param evt 
+     */
     private void editUserMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editUserMenuItemActionPerformed
         String playerName = JOptionPane.showInputDialog(this, 
                 "Edit Player Name:",
@@ -618,6 +665,11 @@ public class CardGame24GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_editUserMenuItemActionPerformed
 
+    /**
+     * Allows the user to search for a Player in the database, and if that
+     * player is found the current Player is switched to the found player.
+     * @param evt 
+     */
     private void searchUserMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchUserMenuItemActionPerformed
         savePlayers();
         shuffleButtonActionPerformed(evt);
@@ -650,6 +702,11 @@ public class CardGame24GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_searchUserMenuItemActionPerformed
 
+    /**
+     * Saves the Player Database. Not really necessary, but was in the project
+     * requirements.
+     * @param evt 
+     */
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         savePlayers();
     }//GEN-LAST:event_saveMenuItemActionPerformed
