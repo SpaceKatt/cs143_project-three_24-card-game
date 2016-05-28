@@ -30,9 +30,9 @@ public class EvaluateExpression {
 //    }
     
     // Using two stacks
-    public static int evaluateInfixExpression(String expression) 
+    public static double evaluateInfixExpression(String expression) 
             throws EmptyStackException, FullStackException {
-        GenericStack<Integer> operandStack = new GenericStack<>();
+        GenericStack<Double> operandStack = new GenericStack<>();
         GenericStack<Character> operatorStack = new GenericStack<>();
         expression = insertBlanks(expression);
         // Extract operands and operators
@@ -66,7 +66,7 @@ public class EvaluateExpression {
                 }
                 operatorStack.pop();
             } else {
-                operandStack.push(Integer.valueOf(token));
+                operandStack.push(Double.valueOf(token));
             }
         }
         // Phase II: Process all the remaining operators
@@ -76,13 +76,13 @@ public class EvaluateExpression {
         return operandStack.pop();
     }
     
-    public static void processAnOperator(GenericStack<Integer> operandStack, 
+    public static void processAnOperator(GenericStack<Double> operandStack, 
             GenericStack<Character> operatorStack) throws EmptyStackException, 
             FullStackException {
-        int result = 0;
+        double result = 0;
         char op = operatorStack.pop();
-        int op1 = (int) operandStack.pop();
-        int op2 = (int) operandStack.pop();
+        double op1 = (double) operandStack.pop();
+        double op2 = (double) operandStack.pop();
         if (op == '+') {
             result = op2 + op1;
         } else if (op == '-') {
@@ -113,5 +113,10 @@ public class EvaluateExpression {
             }
         }
         return result;
+    }
+    
+    public static boolean closeEnough(double one, double two) {
+        double eps = 0.00000001;
+        return Math.abs(one-two)<eps;
     }
 }

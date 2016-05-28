@@ -55,6 +55,14 @@ public class Person {
     }
     
     /**
+     * Sets the name of this person.
+     * @param personName The name we want this person to have.
+     */
+    public void setName(String personName) {
+        this.name = personName;
+    }
+    
+    /**
      * @return A string representation of this person, via their name.
      */
     @Override

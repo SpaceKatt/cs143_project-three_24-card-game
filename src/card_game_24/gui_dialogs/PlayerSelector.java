@@ -351,7 +351,7 @@ public class PlayerSelector extends javax.swing.JDialog {
      * @param name The name we are validating.
      * @return True if the name is valid.
      */
-    private boolean isValidName(String name) {
+    public static boolean isValidName(String name) {
         return !name.equals("Guest") && !name.equals("guest");
     }
     

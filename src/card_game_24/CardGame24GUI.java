@@ -18,6 +18,7 @@ package card_game_24;
 
 import card_game_24.utilities.EvaluateExpression;
 import card_game_24.gui_dialogs.PlayerSelector;
+import static card_game_24.gui_dialogs.PlayerSelector.isValidName;
 import card_game_24.objects.DeckOfCards;
 import card_game_24.objects.EmptyStackException;
 import card_game_24.objects.FullStackException;
@@ -25,6 +26,7 @@ import card_game_24.objects.Player;
 import static card_game_24.utilities.EvaluateExpression.insertBlanks;
 import card_game_24.utilities.PlayerXMLFileReader;
 import card_game_24.utilities.PlayerXMLFileWriter;
+import card_game_24.utilities.RedundancyValidator;
 import static card_game_24.utilities.SortingAlgorithms.insertionSort;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,6 +58,7 @@ public class CardGame24GUI extends javax.swing.JFrame {
     /** The path to our database full of users. */
     private String filePath = "src/card_game_24/data/Players.xml";
     private int currentScore;
+    private RedundancyValidator redundoValido;
     
     /**
      * Creates new form CardGame24GUI
@@ -87,13 +90,26 @@ public class CardGame24GUI extends javax.swing.JFrame {
         return users;
     }
     
+    /**
+     * Displays the four cards currently in play on the main displayPanel.
+     */
     private void displayCards() {
         int[] hand = this.deck.getHand();
+        this.redundoValido = new RedundancyValidator(this.deck.getHand());
+        
         HashMap<String, ImageIcon> imageMap = this.deck.getDeck();
         cardOneLabel.setIcon(imageMap.get(String.valueOf(hand[0])));
         cardTwoLabel.setIcon(imageMap.get(String.valueOf(hand[1])));
         cardThreeLabel.setIcon(imageMap.get(String.valueOf(hand[2])));
         cardFourLabel.setIcon(imageMap.get(String.valueOf(hand[3])));
+        displayUserStats();
+    }
+    
+    private void displayUserStats() {
+        this.userTextField.setText(this.player.getName());
+        this.currentScoreTextField.setText("" + this.currentScore);
+        this.totalScoreTextField.setText("" + this.player.getTotalScore());
+        this.highScoreTextField.setText("" + this.player.getHighScore());
     }
     
     /**
@@ -162,8 +178,9 @@ public class CardGame24GUI extends javax.swing.JFrame {
         for (int i = 0; i < numberStrings.length; i++) {
             if (numberStrings[i].length() > 0 
                     & !numberStrings[i].equals(" ")) {
+                // Correction is so we don't exceed the index bound due to
+                // empty strings or spaces being scanned&skipped
                 numbers[i - correction] = Integer.valueOf(numberStrings[i]);
-//                System.out.println(Integer.valueOf(numberStrings[i]) +  " is " + numberStrings[i]);
             } else {
                 correction++;
             }
@@ -172,17 +189,29 @@ public class CardGame24GUI extends javax.swing.JFrame {
         for (int i = 0; i < numbersHand.length; i++) {
             int cardNumber = this.deck.getHand()[i] % 13;
             if (cardNumber == 0) {
-                cardNumber = 13;
+                cardNumber = 13; // Since 26 % 13 is zero, but card is King
             }
             numbersHand[i] = cardNumber;
         }
         insertionSort(numbers);
         insertionSort(numbersHand);
-//        for (int i = 0; i < numbersHand.length; i++) {
-//            System.out.println(numbersHand[i]);
-//            System.out.println(numbers[i]);
-//        }
         return Arrays.equals(numbers, numbersHand);
+    }
+    
+    /**
+     * Searches for a player whom contains the given name, then returns
+     * the index at which they are found.
+     * @param playerName The name of the player which we are searching for.
+     * @return The index at which they are found.
+     */
+    private int linearPlayerSearch(String playerName) {
+        for (int i = 0; i < this.players.size(); i++) {
+            if (this.players.get(i).getName().toLowerCase().contains(
+                    playerName.toLowerCase())) {
+                return i;
+            }
+        }
+        return -1;
     }
     
     /**
@@ -199,6 +228,15 @@ public class CardGame24GUI extends javax.swing.JFrame {
         solutionTextField = new javax.swing.JTextField();
         validLabel = new javax.swing.JLabel();
         shuffleButton = new javax.swing.JButton();
+        statisticsPanel = new javax.swing.JPanel();
+        userLabel = new javax.swing.JLabel();
+        userTextField = new javax.swing.JTextField();
+        currentScoreLabel = new javax.swing.JLabel();
+        currentScoreTextField = new javax.swing.JTextField();
+        totalScoreLabel = new javax.swing.JLabel();
+        totalScoreTextField = new javax.swing.JTextField();
+        highScoreLabel = new javax.swing.JLabel();
+        highScoreTextField = new javax.swing.JTextField();
         expressionPanel = new javax.swing.JPanel();
         expressionLabel = new javax.swing.JLabel();
         expressionTextField = new javax.swing.JTextField();
@@ -218,7 +256,7 @@ public class CardGame24GUI extends javax.swing.JFrame {
         exitMenuItem = new javax.swing.JMenuItem();
         gameMenu = new javax.swing.JMenu();
         switchUserMenuItem = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        editUserMenuItem = new javax.swing.JMenuItem();
         deleteUserMenuItem = new javax.swing.JMenuItem();
         searchUserMenuItem = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
@@ -233,7 +271,7 @@ public class CardGame24GUI extends javax.swing.JFrame {
         aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(480, 300));
+        setPreferredSize(new java.awt.Dimension(700, 300));
         setResizable(false);
         setSize(new java.awt.Dimension(500, 400));
 
@@ -262,6 +300,43 @@ public class CardGame24GUI extends javax.swing.JFrame {
         upperControlPanel.add(shuffleButton);
 
         getContentPane().add(upperControlPanel, java.awt.BorderLayout.NORTH);
+
+        statisticsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("User Statistics"));
+        statisticsPanel.setLayout(new java.awt.GridLayout(4, 2, 5, 10));
+
+        userLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        userLabel.setText("Current User:");
+        statisticsPanel.add(userLabel);
+
+        userTextField.setEditable(false);
+        userTextField.setToolTipText("The current user's name");
+        statisticsPanel.add(userTextField);
+
+        currentScoreLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        currentScoreLabel.setText("Current Score:");
+        statisticsPanel.add(currentScoreLabel);
+
+        currentScoreTextField.setEditable(false);
+        currentScoreTextField.setToolTipText("The current user's current score");
+        statisticsPanel.add(currentScoreTextField);
+
+        totalScoreLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        totalScoreLabel.setText("Total Score:");
+        statisticsPanel.add(totalScoreLabel);
+
+        totalScoreTextField.setEditable(false);
+        totalScoreTextField.setToolTipText("The current user's total score, from all games played");
+        statisticsPanel.add(totalScoreTextField);
+
+        highScoreLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        highScoreLabel.setText("High Score:");
+        statisticsPanel.add(highScoreLabel);
+
+        highScoreTextField.setEditable(false);
+        highScoreTextField.setToolTipText("The current user's high score");
+        statisticsPanel.add(highScoreTextField);
+
+        getContentPane().add(statisticsPanel, java.awt.BorderLayout.EAST);
 
         expressionPanel.setLayout(new java.awt.GridLayout(1, 3));
 
@@ -305,14 +380,25 @@ public class CardGame24GUI extends javax.swing.JFrame {
         fileMenu.setText("File");
         fileMenu.setToolTipText("Perform actions regarding this application");
 
+        saveMenuItem.setMnemonic('a');
         saveMenuItem.setText("Save");
+        saveMenuItem.setToolTipText("Save all the players in the database");
+        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(saveMenuItem);
         fileMenu.add(jSeparator5);
 
+        printMenuItem.setMnemonic('g');
         printMenuItem.setText("Print GUI");
+        printMenuItem.setToolTipText("Print this screen");
         fileMenu.add(printMenuItem);
 
+        printStatisticsMenuItem.setMnemonic('c');
         printStatisticsMenuItem.setText("Print Statistics");
+        printStatisticsMenuItem.setToolTipText("Print the current user's Statistics");
         fileMenu.add(printStatisticsMenuItem);
         fileMenu.add(jSeparator3);
 
@@ -332,6 +418,7 @@ public class CardGame24GUI extends javax.swing.JFrame {
         gameMenu.setText("Game");
         gameMenu.setToolTipText("Perform actions that are relevant to this game.");
 
+        switchUserMenuItem.setMnemonic('u');
         switchUserMenuItem.setText("Switch User");
         switchUserMenuItem.setToolTipText("Switch which user is currently playing");
         switchUserMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -341,8 +428,15 @@ public class CardGame24GUI extends javax.swing.JFrame {
         });
         gameMenu.add(switchUserMenuItem);
 
-        jMenuItem1.setText("Edit Username");
-        gameMenu.add(jMenuItem1);
+        editUserMenuItem.setMnemonic('e');
+        editUserMenuItem.setText("Edit Username");
+        editUserMenuItem.setToolTipText("Edit the current user's name");
+        editUserMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editUserMenuItemActionPerformed(evt);
+            }
+        });
+        gameMenu.add(editUserMenuItem);
 
         deleteUserMenuItem.setMnemonic('d');
         deleteUserMenuItem.setText("Delete Current User");
@@ -354,7 +448,14 @@ public class CardGame24GUI extends javax.swing.JFrame {
         });
         gameMenu.add(deleteUserMenuItem);
 
+        searchUserMenuItem.setMnemonic('r');
         searchUserMenuItem.setText("Search User");
+        searchUserMenuItem.setToolTipText("Search for a user, and switch to that user if it is found");
+        searchUserMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchUserMenuItemActionPerformed(evt);
+            }
+        });
         gameMenu.add(searchUserMenuItem);
         gameMenu.add(jSeparator4);
 
@@ -367,15 +468,25 @@ public class CardGame24GUI extends javax.swing.JFrame {
         shffleMenuItem.setMnemonic('s');
         shffleMenuItem.setText("Shuffle");
         shffleMenuItem.setToolTipText("Shuffle the current hand (display different cards)");
+        shffleMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                shffleMenuItemActionPerformed(evt);
+            }
+        });
         gameMenu.add(shffleMenuItem);
 
         evaulateMenuItem.setMnemonic('v');
         evaulateMenuItem.setText("Evaluate");
         evaulateMenuItem.setToolTipText("Evalutate an Expression");
+        evaulateMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                evaulateMenuItemActionPerformed(evt);
+            }
+        });
         gameMenu.add(evaulateMenuItem);
         gameMenu.add(jSeparator2);
 
-        solutionsMenuItem.setMnemonic('s');
+        solutionsMenuItem.setMnemonic('o');
         solutionsMenuItem.setText("Find all solutions");
         solutionsMenuItem.setToolTipText("Finds all he solutions to the current hand and displays them");
         gameMenu.add(solutionsMenuItem);
@@ -416,15 +527,24 @@ public class CardGame24GUI extends javax.swing.JFrame {
         String expression = this.expressionTextField.getText();
         if (expression != null && expression.length() > 0) {
             try {
-                int number = EvaluateExpression.evaluateInfixExpression(expression);
+                double number = EvaluateExpression.evaluateInfixExpression(expression);
                 if (!validExpression(expression)) {
                     JOptionPane.showMessageDialog(null,
                         "You may only use the numbers given on the cards",
                         "Invalid expression.",
                         JOptionPane.INFORMATION_MESSAGE);
-                } else if (number == 24) {
+                } else if (!this.redundoValido.validateExpression(expression)) { 
+                    JOptionPane.showMessageDialog(null,
+                        "You may only use expressions you haven't used before."
+                       + "\nYou have used: \n\n" 
+                       + this.redundoValido.getGeneralForms(),
+                        "Redundant expression.",
+                        JOptionPane.INFORMATION_MESSAGE);
+                } else if (EvaluateExpression.closeEnough(number, 24.0)) {
                     this.validLabel.setText("Valid Expression");
                     this.currentScore++;
+                    this.player.addTotalScore(1);
+                    this.player.checkIfHighScore(currentScore);
                     savePlayers();
                 } else {
                     this.validLabel.setText("Incorrect Expression");
@@ -437,6 +557,7 @@ public class CardGame24GUI extends javax.swing.JFrame {
                     "An expression is needed to evaluate one.",
                     JOptionPane.INFORMATION_MESSAGE);
         }
+        displayUserStats();
     }//GEN-LAST:event_expressionButtonActionPerformed
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
@@ -467,6 +588,71 @@ public class CardGame24GUI extends javax.swing.JFrame {
             // Do nothing
         }
     }//GEN-LAST:event_deleteUserMenuItemActionPerformed
+
+    private void shffleMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shffleMenuItemActionPerformed
+        shuffleButtonActionPerformed(evt);
+    }//GEN-LAST:event_shffleMenuItemActionPerformed
+
+    private void evaulateMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_evaulateMenuItemActionPerformed
+        expressionButtonActionPerformed(evt);
+    }//GEN-LAST:event_evaulateMenuItemActionPerformed
+
+    private void editUserMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editUserMenuItemActionPerformed
+        String playerName = JOptionPane.showInputDialog(this, 
+                "Edit Player Name:",
+                "Enter a Valid name",
+                JOptionPane.PLAIN_MESSAGE);
+        if (playerName == null || playerName.length() == 0) {
+            JOptionPane.showMessageDialog(null, "No name given.",
+                    "New player not created...",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (isValidName(playerName)) {
+            this.player.setName(playerName);
+            savePlayers();
+        } else {
+            JOptionPane.showMessageDialog(null, 
+                    "Invalid name given."
+                  + "\nName cannot be 'Guest'",
+                    "Player name not edited...",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_editUserMenuItemActionPerformed
+
+    private void searchUserMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchUserMenuItemActionPerformed
+        savePlayers();
+        shuffleButtonActionPerformed(evt);
+        String playerName = JOptionPane.showInputDialog(this, 
+                "Search for Player Name:",
+                "Enter a Valid name to search",
+                JOptionPane.PLAIN_MESSAGE);
+        if (playerName == null || playerName.length() == 0) {
+            JOptionPane.showMessageDialog(null, "No name given.",
+                    "Player search not performed...",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            int index = linearPlayerSearch(playerName);
+            if (index != -1) {
+                JOptionPane.showMessageDialog(null, 
+                    "Player: " + players.get(index).getName() 
+                            + ", has been found. \nSwitching to this player.",
+                    "Switching players",
+                    JOptionPane.INFORMATION_MESSAGE);
+                this.player =  players.get(index);
+                savePlayers();
+                displayCards();
+            } else {
+                JOptionPane.showMessageDialog(null, 
+                    "Player: " + playerName 
+                            + ", has not been found.",
+                    "Search Failed",
+                    JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_searchUserMenuItemActionPerformed
+
+    private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
+        savePlayers();
+    }//GEN-LAST:event_saveMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -511,8 +697,11 @@ public class CardGame24GUI extends javax.swing.JFrame {
     private javax.swing.JLabel cardTwoLabel;
     private javax.swing.JMenuBar cardsMenuBar;
     private javax.swing.JMenuItem combinationMenuItem;
+    private javax.swing.JLabel currentScoreLabel;
+    private javax.swing.JTextField currentScoreTextField;
     private javax.swing.JMenuItem deleteUserMenuItem;
     private javax.swing.JPanel displayPanel;
+    private javax.swing.JMenuItem editUserMenuItem;
     private javax.swing.JMenuItem evaulateMenuItem;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JButton expressionButton;
@@ -522,7 +711,8 @@ public class CardGame24GUI extends javax.swing.JFrame {
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu gameMenu;
     private javax.swing.JMenu helpMenu;
-    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JLabel highScoreLabel;
+    private javax.swing.JTextField highScoreTextField;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
@@ -538,8 +728,13 @@ public class CardGame24GUI extends javax.swing.JFrame {
     private javax.swing.JTextField solutionTextField;
     private javax.swing.JMenuItem solutionsMenuItem;
     private javax.swing.JMenuItem statisticsMenuItem;
+    private javax.swing.JPanel statisticsPanel;
     private javax.swing.JMenuItem switchUserMenuItem;
+    private javax.swing.JLabel totalScoreLabel;
+    private javax.swing.JTextField totalScoreTextField;
     private javax.swing.JPanel upperControlPanel;
+    private javax.swing.JLabel userLabel;
+    private javax.swing.JTextField userTextField;
     private javax.swing.JLabel validLabel;
     // End of variables declaration//GEN-END:variables
 }
