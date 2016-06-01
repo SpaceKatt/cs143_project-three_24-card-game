@@ -16,6 +16,9 @@
  */
 package card_game_24.utilities;
 
+import card_game_24.objects.Player;
+import java.util.ArrayList;
+
 /**
  *
  * @author thomas.kercheval
@@ -48,12 +51,31 @@ public class SortingAlgorithms {
     
     /**
      * Implements a simple insertion sort to sort an ArrayList of Comparable
-     * objects. Sort by Parcel ID.
+     * objects.
      * @param arr The ArrayList we want to sort.
      */
     public static void insertionSort(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
             for (int j = i; j > 0 && less(arr[j], arr[j - 1]); j--) {
+                swap(arr, j, j - 1);
+            }
+        }
+    }
+    
+    public static boolean less(Player one, Player two) {
+        return one.getHighScore() < two.getHighScore();
+    }
+    
+    public static void swap(ArrayList<Player> arr, int one, int two) {
+        Player temp = arr.get(one);
+        arr.set(one, arr.get(two));
+        arr.set(two, temp);
+    }
+    
+    public static void insertionSort(ArrayList<Player> arr) {
+        for (int i = 0; i < arr.size(); i++) {
+            for (int j = i; j > 0 && less(arr.get(j), 
+                    arr.get(j - 1)); j--) {
                 swap(arr, j, j - 1);
             }
         }

@@ -56,8 +56,8 @@ public class PlayerSelector extends javax.swing.JDialog {
         this.setModal(true);
         setLocationRelativeTo(null);
         this.getRootPane().setDefaultButton(this.selectButton);
-//        this.setIconImage(Toolkit.getDefaultToolkit().
-//                getImage("src/parcelhub/images/238be5e.png"));
+        this.setIconImage(Toolkit.getDefaultToolkit().
+                getImage("src/card_game_24/images/cards/king_of_hearts.png"));
         this.playerObjects = players;
         DefaultListModel model = new DefaultListModel();
         insertionSort(playerObjects);
@@ -188,10 +188,12 @@ public class PlayerSelector extends javax.swing.JDialog {
         guestButton = new javax.swing.JButton();
         exitButton = new javax.swing.JButton();
         titlePanel = new javax.swing.JPanel();
-        parcelhubLabel = new javax.swing.JLabel();
+        playaaLabel = new javax.swing.JLabel();
+        sellLabel = new javax.swing.JLabel();
+        logoLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Select a Database to Open");
+        setTitle("Select a Player");
         setResizable(false);
 
         playerList.setModel(new javax.swing.AbstractListModel<String>() {
@@ -199,7 +201,7 @@ public class PlayerSelector extends javax.swing.JDialog {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        playerList.setToolTipText("The current extant databases, click to select one and press Enter");
+        playerList.setToolTipText("The current extant players, click to select one and press Enter");
         jScrollPane1.setViewportView(playerList);
 
         javax.swing.GroupLayout displayPanelLayout = new javax.swing.GroupLayout(displayPanel);
@@ -208,7 +210,7 @@ public class PlayerSelector extends javax.swing.JDialog {
             displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(displayPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
                 .addContainerGap())
         );
         displayPanelLayout.setVerticalGroup(
@@ -225,7 +227,7 @@ public class PlayerSelector extends javax.swing.JDialog {
 
         newButton.setMnemonic('n');
         newButton.setText("New");
-        newButton.setToolTipText("Create a new database, will be named as the current Date");
+        newButton.setToolTipText("Create a new player, you will be asked for a name");
         newButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newButtonActionPerformed(evt);
@@ -235,9 +237,9 @@ public class PlayerSelector extends javax.swing.JDialog {
 
         openCancelPanel.setLayout(new java.awt.GridLayout(1, 3));
 
-        selectButton.setMnemonic('o');
+        selectButton.setMnemonic('s');
         selectButton.setText("Select");
-        selectButton.setToolTipText("Open selected database");
+        selectButton.setToolTipText("Open selected player");
         selectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 selectButtonActionPerformed(evt);
@@ -245,7 +247,9 @@ public class PlayerSelector extends javax.swing.JDialog {
         });
         openCancelPanel.add(selectButton);
 
+        guestButton.setMnemonic('g');
         guestButton.setText("Guest");
+        guestButton.setToolTipText("Use guest account, stats will not be saved");
         guestButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 guestButtonActionPerformed(evt);
@@ -255,7 +259,7 @@ public class PlayerSelector extends javax.swing.JDialog {
 
         exitButton.setMnemonic('c');
         exitButton.setText("Cancel");
-        exitButton.setToolTipText("Cancel database opening");
+        exitButton.setToolTipText("Cancel Player selection");
         exitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exitButtonActionPerformed(evt);
@@ -267,23 +271,41 @@ public class PlayerSelector extends javax.swing.JDialog {
 
         getContentPane().add(controlPanel, java.awt.BorderLayout.SOUTH);
 
-        parcelhubLabel.setFont(new java.awt.Font("AR JULIAN", 0, 48)); // NOI18N
-        parcelhubLabel.setText("PLAYER Select");
+        playaaLabel.setFont(new java.awt.Font("AR JULIAN", 0, 24)); // NOI18N
+        playaaLabel.setText("Player");
+
+        sellLabel.setFont(new java.awt.Font("AR JULIAN", 0, 24)); // NOI18N
+        sellLabel.setText("Select");
+
+        logoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/card_game_24/images/kinglogo-panel.png"))); // NOI18N
 
         javax.swing.GroupLayout titlePanelLayout = new javax.swing.GroupLayout(titlePanel);
         titlePanel.setLayout(titlePanelLayout);
         titlePanelLayout.setHorizontalGroup(
             titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(titlePanelLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(parcelhubLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(logoLabel)
+                .addGroup(titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(titlePanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(playaaLabel)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titlePanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                        .addComponent(sellLabel)
+                        .addGap(27, 27, 27))))
         );
         titlePanelLayout.setVerticalGroup(
             titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titlePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(parcelhubLabel)
+                .addGroup(titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(titlePanelLayout.createSequentialGroup()
+                        .addComponent(playaaLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sellLabel))
+                    .addComponent(logoLabel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -361,11 +383,13 @@ public class PlayerSelector extends javax.swing.JDialog {
     private javax.swing.JButton exitButton;
     private javax.swing.JButton guestButton;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel logoLabel;
     private javax.swing.JButton newButton;
     private javax.swing.JPanel openCancelPanel;
-    private javax.swing.JLabel parcelhubLabel;
+    private javax.swing.JLabel playaaLabel;
     private javax.swing.JList<String> playerList;
     private javax.swing.JButton selectButton;
+    private javax.swing.JLabel sellLabel;
     private javax.swing.JPanel titlePanel;
     // End of variables declaration//GEN-END:variables
 }

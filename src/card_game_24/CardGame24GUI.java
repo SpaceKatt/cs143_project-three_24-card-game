@@ -16,9 +16,11 @@
  */
 package card_game_24;
 
+import card_game_24.gui_dialogs.AboutForm;
 import card_game_24.utilities.EvaluateExpression;
 import card_game_24.gui_dialogs.PlayerSelector;
 import static card_game_24.gui_dialogs.PlayerSelector.isValidName;
+import card_game_24.gui_dialogs.StatisticsPanel;
 import card_game_24.objects.DeckOfCards;
 import card_game_24.objects.EmptyStackException;
 import card_game_24.objects.FullStackException;
@@ -27,8 +29,10 @@ import static card_game_24.utilities.EvaluateExpression.evaluateInfixExpression;
 import static card_game_24.utilities.EvaluateExpression.insertBlanks;
 import card_game_24.utilities.PlayerXMLFileReader;
 import card_game_24.utilities.PlayerXMLFileWriter;
+import card_game_24.utilities.PrintUtilities;
 import card_game_24.utilities.RedundancyValidator;
 import static card_game_24.utilities.SortingAlgorithms.insertionSort;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -70,6 +74,8 @@ public class CardGame24GUI extends javax.swing.JFrame {
         this.player = selectPlayer();
         savePlayers();
         initComponents();
+        this.setIconImage(Toolkit.getDefaultToolkit().
+                getImage("src/card_game_24/images/cards/king_of_hearts.png"));
         setLocationRelativeTo(null);
         this.getRootPane().setDefaultButton(this.expressionButton);
         displayCards();
@@ -187,7 +193,12 @@ public class CardGame24GUI extends javax.swing.JFrame {
                     & !numberStrings[i].equals(" ")) {
                 // Correction is so we don't exceed the index bound due to
                 // empty strings or spaces being scanned&skipped
-                numbers[i - correction] = Integer.valueOf(numberStrings[i]);
+                try {
+                    numbers[i - correction] = Integer.valueOf(numberStrings[i]);
+                } catch (ArrayIndexOutOfBoundsException ex) {
+                    return false; // In case the user enters more than four
+                                  // numbers.
+                }
             } else {
                 correction++;
             }
@@ -248,6 +259,8 @@ public class CardGame24GUI extends javax.swing.JFrame {
         expressionLabel = new javax.swing.JLabel();
         expressionTextField = new javax.swing.JTextField();
         expressionButton = new javax.swing.JButton();
+        logoPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         displayPanel = new javax.swing.JPanel();
         cardOneLabel = new javax.swing.JLabel();
         cardTwoLabel = new javax.swing.JLabel();
@@ -268,6 +281,7 @@ public class CardGame24GUI extends javax.swing.JFrame {
         searchUserMenuItem = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         statisticsMenuItem = new javax.swing.JMenuItem();
+        highScoreMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         shffleMenuItem = new javax.swing.JMenuItem();
         evaulateMenuItem = new javax.swing.JMenuItem();
@@ -278,7 +292,8 @@ public class CardGame24GUI extends javax.swing.JFrame {
         aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(700, 300));
+        setTitle("24 Card Game");
+        setPreferredSize(new java.awt.Dimension(760, 300));
         setResizable(false);
         setSize(new java.awt.Dimension(500, 400));
 
@@ -290,10 +305,11 @@ public class CardGame24GUI extends javax.swing.JFrame {
         upperControlPanel.add(solutionButton);
 
         solutionTextField.setEditable(false);
+        solutionTextField.setToolTipText("Displays one valid solution, for more click `Find Solution(s)`");
         upperControlPanel.add(solutionTextField);
 
         validLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        validLabel.setToolTipText("Will tell you if your expression is valid, incorrect, of invalid");
+        validLabel.setToolTipText("Will tell you if your expression is valid, incorrect, or invalid");
         upperControlPanel.add(validLabel);
 
         shuffleButton.setMnemonic('s');
@@ -366,6 +382,14 @@ public class CardGame24GUI extends javax.swing.JFrame {
 
         getContentPane().add(expressionPanel, java.awt.BorderLayout.SOUTH);
 
+        logoPanel.setLayout(new java.awt.GridLayout());
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/card_game_24/images/kinglogo-sidebar.png"))); // NOI18N
+        jLabel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 1));
+        logoPanel.add(jLabel1);
+
+        getContentPane().add(logoPanel, java.awt.BorderLayout.WEST);
+
         displayPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         displayPanel.setLayout(new java.awt.GridLayout(1, 4, 10, 10));
 
@@ -401,11 +425,21 @@ public class CardGame24GUI extends javax.swing.JFrame {
         printMenuItem.setMnemonic('g');
         printMenuItem.setText("Print GUI");
         printMenuItem.setToolTipText("Print this screen");
+        printMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(printMenuItem);
 
         printStatisticsMenuItem.setMnemonic('c');
         printStatisticsMenuItem.setText("Print Statistics");
         printStatisticsMenuItem.setToolTipText("Print the current user's Statistics");
+        printStatisticsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printStatisticsMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(printStatisticsMenuItem);
         fileMenu.add(jSeparator3);
 
@@ -469,7 +503,22 @@ public class CardGame24GUI extends javax.swing.JFrame {
         statisticsMenuItem.setMnemonic('i');
         statisticsMenuItem.setText("Display Statistics");
         statisticsMenuItem.setToolTipText("Display the current user's statistics");
+        statisticsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                statisticsMenuItemActionPerformed(evt);
+            }
+        });
         gameMenu.add(statisticsMenuItem);
+
+        highScoreMenuItem.setMnemonic('h');
+        highScoreMenuItem.setText("Display High Scores");
+        highScoreMenuItem.setToolTipText("Display the high scores");
+        highScoreMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                highScoreMenuItemActionPerformed(evt);
+            }
+        });
+        gameMenu.add(highScoreMenuItem);
         gameMenu.add(jSeparator1);
 
         shffleMenuItem.setMnemonic('s');
@@ -512,6 +561,11 @@ public class CardGame24GUI extends javax.swing.JFrame {
         aboutMenuItem.setMnemonic('t');
         aboutMenuItem.setText("About");
         aboutMenuItem.setToolTipText("About this project");
+        aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutMenuItemActionPerformed(evt);
+            }
+        });
         helpMenu.add(aboutMenuItem);
 
         cardsMenuBar.add(helpMenu);
@@ -532,6 +586,8 @@ public class CardGame24GUI extends javax.swing.JFrame {
         this.currentScore = 0;
         this.deck.resetHand();
         displayCards();
+        this.expressionTextField.setText("");
+        this.expressionTextField.requestFocus();
         savePlayers();
     }//GEN-LAST:event_shuffleButtonActionPerformed
 
@@ -552,6 +608,8 @@ public class CardGame24GUI extends javax.swing.JFrame {
                         "You may only use the numbers given on the cards",
                         "Invalid expression.",
                         JOptionPane.INFORMATION_MESSAGE);
+                } else if (!EvaluateExpression.closeEnough(number, 24.0)) {
+                    this.validLabel.setText("Incorrect Expression");
                 } else if (!redundoValido.validateExpression(expression)) { 
                     JOptionPane.showMessageDialog(null,
                         "You may only use expressions you haven't used before."
@@ -559,17 +617,16 @@ public class CardGame24GUI extends javax.swing.JFrame {
                        + redundoValido.getGeneralForms(),
                         "Redundant expression.",
                         JOptionPane.INFORMATION_MESSAGE);
-                } else if (EvaluateExpression.closeEnough(number, 24.0)) {
+                } else {
                     // If the double returned by evaluating our expression
                     // is close enough to 24 as to take into consideration 
-                    // round off error
+                    // round off error, and isn't redundant to an expression
+                    // which has already been used.
                     this.validLabel.setText("Valid Expression");
                     this.currentScore++;
                     this.player.addTotalScore(1);
                     this.player.checkIfHighScore(currentScore);
                     savePlayers();
-                } else {
-                    this.validLabel.setText("Incorrect Expression");
                 }
             } catch (EmptyStackException | FullStackException ex) {
                 this.validLabel.setText("Invalid Expression");
@@ -600,6 +657,7 @@ public class CardGame24GUI extends javax.swing.JFrame {
     private void switchUserMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchUserMenuItemActionPerformed
         shuffleButtonActionPerformed(evt);
         this.player = selectPlayer();
+        displayUserStats();
         savePlayers();
     }//GEN-LAST:event_switchUserMenuItemActionPerformed
 
@@ -618,6 +676,7 @@ public class CardGame24GUI extends javax.swing.JFrame {
             this.player = null;
             savePlayers();
             this.player = selectPlayer();
+            displayUserStats();
             savePlayers();
         } else {
             // Do nothing
@@ -663,6 +722,7 @@ public class CardGame24GUI extends javax.swing.JFrame {
                     "Player name not edited...",
                     JOptionPane.INFORMATION_MESSAGE);
         }
+        displayUserStats();
     }//GEN-LAST:event_editUserMenuItemActionPerformed
 
     /**
@@ -691,7 +751,7 @@ public class CardGame24GUI extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
                 this.player =  players.get(index);
                 savePlayers();
-                displayCards();
+                displayUserStats();
             } else {
                 JOptionPane.showMessageDialog(null, 
                     "Player: " + playerName 
@@ -710,6 +770,41 @@ public class CardGame24GUI extends javax.swing.JFrame {
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         savePlayers();
     }//GEN-LAST:event_saveMenuItemActionPerformed
+
+    private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
+        AboutForm about = new AboutForm();
+        about.setVisible(true);
+        about.dispose();
+    }//GEN-LAST:event_aboutMenuItemActionPerformed
+
+    private void printMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printMenuItemActionPerformed
+        PrintUtilities.printComponent(this);
+    }//GEN-LAST:event_printMenuItemActionPerformed
+
+    private void printStatisticsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printStatisticsMenuItemActionPerformed
+        PrintUtilities.printComponent(this.statisticsPanel);
+    }//GEN-LAST:event_printStatisticsMenuItemActionPerformed
+
+    private void statisticsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticsMenuItemActionPerformed
+        StatisticsPanel stats = new StatisticsPanel(player, currentScore);
+        stats.setVisible(true);
+        stats.dispose();
+    }//GEN-LAST:event_statisticsMenuItemActionPerformed
+
+    private void highScoreMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_highScoreMenuItemActionPerformed
+        ArrayList<Player> sortedPlayers = new ArrayList<>(this.players);
+        insertionSort(sortedPlayers);
+        String highScores = "";
+        for (int i = 0; i < sortedPlayers.size() && i < 10; i++) {
+            Player player = sortedPlayers.get(i);
+            highScores += (i+1) + ". " + player.getName() 
+                    + ": " + player.getHighScore() + "\n";
+        }
+        JOptionPane.showMessageDialog(null, 
+            "High Scores:\n" + highScores,
+            "Score Board",
+            JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_highScoreMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -769,12 +864,15 @@ public class CardGame24GUI extends javax.swing.JFrame {
     private javax.swing.JMenu gameMenu;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JLabel highScoreLabel;
+    private javax.swing.JMenuItem highScoreMenuItem;
     private javax.swing.JTextField highScoreTextField;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JPanel logoPanel;
     private javax.swing.JMenuItem printMenuItem;
     private javax.swing.JMenuItem printStatisticsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;

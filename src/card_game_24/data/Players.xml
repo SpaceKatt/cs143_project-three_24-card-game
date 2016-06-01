@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Players>
   <Player>
-    <name>Bob</name>
-    <highScore>20</highScore>
-    <totalScore>51</totalScore>
-    <possibleScore>3</possibleScore>
-    <totalGames>77</totalGames>
+    <name>&lt;&amp;&gt;</name>
+    <highScore>3</highScore>
+    <totalScore>5</totalScore>
+    <possibleScore>0</possibleScore>
+    <totalGames>11</totalGames>
   </Player>
   <Player>
-    <name>Thomas</name>
-    <highScore>20</highScore>
-    <totalScore>20</totalScore>
+    <name>Mark</name>
+    <highScore>0</highScore>
+    <totalScore>0</totalScore>
     <possibleScore>0</possibleScore>
-    <totalGames>3</totalGames>
+    <totalGames>2</totalGames>
   </Player>
 </Players>

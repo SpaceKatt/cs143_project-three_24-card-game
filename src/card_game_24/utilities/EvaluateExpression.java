@@ -6,29 +6,6 @@ import card_game_24.objects.GenericStack;
 import java.util.Scanner;
 
 public class EvaluateExpression {
-
-//    public static void main(String[] args) {
-//        Scanner keyboard = new Scanner(System.in);
-//        String answer = "y";
-//        boolean again = true;
-//        while(again) {
-//            System.out.print("Input an expression in infix notation: ");
-//            String express = keyboard.nextLine();
-//            try {
-//                if (express.equals("") || express.length() < 1) {
-//                    throw new NumberFormatException();
-//                }
-//                System.out.println(express + " = " + 
-//                        evaluateInfixExpression(express));
-//            } catch (NumberFormatException ex) {
-//                System.out.println("Fuck you.");
-//            }
-//            System.out.print("Try another? (y/n): ");
-//            answer = keyboard.nextLine();
-//            again = answer.equalsIgnoreCase("y");
-//        }
-//    }
-    
     // Using two stacks
     public static double evaluateInfixExpression(String expression) 
             throws EmptyStackException, FullStackException {

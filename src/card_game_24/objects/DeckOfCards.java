@@ -136,9 +136,9 @@ public class DeckOfCards {
         deck.put("8", new ImageIcon(pathStub + "8_of_hearts" + ext));
         deck.put("9", new ImageIcon(pathStub + "9_of_hearts" + ext));
         deck.put("10", new ImageIcon(pathStub + "10_of_hearts" + ext));
-        deck.put("11", new ImageIcon(pathStub + "jack_of_hearts" + ext));
-        deck.put("12", new ImageIcon(pathStub + "queen_of_hearts" + ext));
-        deck.put("13", new ImageIcon(pathStub + "king_of_hearts" + ext));
+        deck.put("11", new ImageIcon(pathStub + "jack_of_hearts2" + ext));
+        deck.put("12", new ImageIcon(pathStub + "queen_of_hearts2" + ext));
+        deck.put("13", new ImageIcon(pathStub + "king_of_hearts2" + ext));
         deck.put("14", new ImageIcon(pathStub + "ace_of_diamonds" + ext));
         deck.put("15", new ImageIcon(pathStub + "2_of_diamonds" + ext));
         deck.put("16", new ImageIcon(pathStub + "3_of_diamonds" + ext));
@@ -149,9 +149,9 @@ public class DeckOfCards {
         deck.put("21", new ImageIcon(pathStub + "8_of_diamonds" + ext));
         deck.put("22", new ImageIcon(pathStub + "9_of_diamonds" + ext));
         deck.put("23", new ImageIcon(pathStub + "10_of_diamonds" + ext));
-        deck.put("24", new ImageIcon(pathStub + "jack_of_diamonds" + ext));
-        deck.put("25", new ImageIcon(pathStub + "queen_of_diamonds" + ext));
-        deck.put("26", new ImageIcon(pathStub + "king_of_diamonds" + ext));
+        deck.put("24", new ImageIcon(pathStub + "jack_of_diamonds2" + ext));
+        deck.put("25", new ImageIcon(pathStub + "queen_of_diamonds2" + ext));
+        deck.put("26", new ImageIcon(pathStub + "king_of_diamonds2" + ext));
         deck.put("27", new ImageIcon(pathStub + "ace_of_clubs" + ext));
         deck.put("28", new ImageIcon(pathStub + "2_of_clubs" + ext));
         deck.put("29", new ImageIcon(pathStub + "3_of_clubs" + ext));
@@ -162,9 +162,9 @@ public class DeckOfCards {
         deck.put("34", new ImageIcon(pathStub + "8_of_clubs" + ext));
         deck.put("35", new ImageIcon(pathStub + "9_of_clubs" + ext));
         deck.put("36", new ImageIcon(pathStub + "10_of_clubs" + ext));
-        deck.put("37", new ImageIcon(pathStub + "jack_of_clubs" + ext));
-        deck.put("38", new ImageIcon(pathStub + "queen_of_clubs" + ext));
-        deck.put("39", new ImageIcon(pathStub + "king_of_clubs" + ext));
+        deck.put("37", new ImageIcon(pathStub + "jack_of_clubs2" + ext));
+        deck.put("38", new ImageIcon(pathStub + "queen_of_clubs2" + ext));
+        deck.put("39", new ImageIcon(pathStub + "king_of_clubs2" + ext));
         deck.put("40", new ImageIcon(pathStub + "ace_of_spades" + ext));
         deck.put("41", new ImageIcon(pathStub + "2_of_spades" + ext));
         deck.put("42", new ImageIcon(pathStub + "3_of_spades" + ext));
@@ -175,9 +175,9 @@ public class DeckOfCards {
         deck.put("47", new ImageIcon(pathStub + "8_of_spades" + ext));
         deck.put("48", new ImageIcon(pathStub + "9_of_spades" + ext));
         deck.put("49", new ImageIcon(pathStub + "10_of_spades" + ext));
-        deck.put("50", new ImageIcon(pathStub + "jack_of_spades" + ext));
-        deck.put("51", new ImageIcon(pathStub + "queen_of_spades" + ext));
-        deck.put("52", new ImageIcon(pathStub + "king_of_spades" + ext));
+        deck.put("50", new ImageIcon(pathStub + "jack_of_spades2" + ext));
+        deck.put("51", new ImageIcon(pathStub + "queen_of_spades2" + ext));
+        deck.put("52", new ImageIcon(pathStub + "king_of_spades2" + ext));
         
         rescaleDeckImages(deck);
         return deck;
