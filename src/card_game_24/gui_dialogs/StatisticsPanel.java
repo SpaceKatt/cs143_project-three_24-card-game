@@ -20,16 +20,28 @@ import card_game_24.objects.Player;
 import java.awt.Toolkit;
 
 /**
+ * A form by which the User may view the current Player statistics.
  *
- * @author Thomas
+ * Project: 24 Card Game
+ * Platform: jdk 1.8.0_14; NetBeans IDE 8.1; Windows 10
+ * Course: CS 143 
+ * Created on May 9, 2016, 5:31 PM 
+ * Revised on May 24, 2016, 10:38 PM
+ *
+ * @author thomas.kercheval
  */
 public class StatisticsPanel extends javax.swing.JDialog {
-    private Player player;
-    private int currentScore;
-    
+    /** The Player whose statistics we are displaying. */
+    private final Player player;
+    /** The current score of the Player who spawned this Dialog. */
+    private final int currentScore;
     
     /**
-     * Creates new form StatisticsPanel
+     * Creates new form StatisticsPanel.
+     * @param user The Player object who will populate the fields in this 
+     * form.
+     * @param currentScoreYo The current score of the user who spawned this
+     * Dialog.
      */
     public StatisticsPanel(Player user, int currentScoreYo) {
         this.player = user;
@@ -167,7 +179,10 @@ public class StatisticsPanel extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Closes the About form and returns to main GUI.
+     * @param evt The event which triggers this listener.
+     */
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
         this.dispose();
     }//GEN-LAST:event_closeButtonActionPerformed

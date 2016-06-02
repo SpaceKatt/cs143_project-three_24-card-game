@@ -5,13 +5,20 @@
     <highScore>3</highScore>
     <totalScore>5</totalScore>
     <possibleScore>0</possibleScore>
-    <totalGames>11</totalGames>
+    <totalGames>12</totalGames>
   </Player>
   <Player>
     <name>Mark</name>
     <highScore>0</highScore>
     <totalScore>0</totalScore>
     <possibleScore>0</possibleScore>
-    <totalGames>2</totalGames>
+    <totalGames>3</totalGames>
+  </Player>
+  <Player>
+    <name>Thomas</name>
+    <highScore>1</highScore>
+    <totalScore>3</totalScore>
+    <possibleScore>0</possibleScore>
+    <totalGames>5</totalGames>
   </Player>
 </Players>

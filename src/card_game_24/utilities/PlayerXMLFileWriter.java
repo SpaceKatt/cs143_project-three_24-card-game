@@ -32,7 +32,7 @@ import card_game_24.objects.Player;
 /**
  * PlayerCSVFileWriter.java
  * This class provides an abstraction to write our database.
- * Using XML! For extra credit.
+ * Using XML! For Xtra credit.
  * <pre>
     Project: 24 Card Game
     Platform: jdk 1.8.0_14; NetBeans IDE 8.1; Windows 10
@@ -43,7 +43,7 @@ import card_game_24.objects.Player;
  * @author Thomas Kercheval
  */
 public class PlayerXMLFileWriter {
-    /** The file name of our database */
+    /** The file name of our database. */
     private String fileName;
     /** ArrayList of Player Objects which we are writing to our database. */
     private ArrayList<Player> players;

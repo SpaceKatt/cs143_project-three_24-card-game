@@ -32,6 +32,7 @@ import card_game_24.utilities.PlayerXMLFileWriter;
 import card_game_24.utilities.PrintUtilities;
 import card_game_24.utilities.RedundancyValidator;
 import static card_game_24.utilities.SortingAlgorithms.insertionSort;
+
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,7 +63,12 @@ public class CardGame24GUI extends javax.swing.JFrame {
     private ArrayList<Player> players;
     /** The path to our database full of users. */
     private String filePath = "src/card_game_24/data/Players.xml";
+    /** The current score of the current Player. */
     private int currentScore;
+    /** 
+     * The object which will determine whether the user tries to use a 
+     * mathematically equivalent expression (e.g, a + b - c, vs, a - (c - b)).
+     */
     private RedundancyValidator redundoValido;
     
     /**
@@ -134,6 +140,7 @@ public class CardGame24GUI extends javax.swing.JFrame {
     private Player selectPlayer() {
         PlayerSelector selector = new PlayerSelector(this.players);
         selector.setVisible(true);
+
         if (selector.getPlayer() != null) {
             Player selectedPlayer = selector.getPlayer();
             if (!players.contains(selectedPlayer) 
@@ -771,34 +778,54 @@ public class CardGame24GUI extends javax.swing.JFrame {
         savePlayers();
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
+    /**
+     * Spawns the about form, which shows information about this project.
+     * @param evt 
+     */
     private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
         AboutForm about = new AboutForm();
         about.setVisible(true);
         about.dispose();
     }//GEN-LAST:event_aboutMenuItemActionPerformed
 
+    /**
+     * Prints out the entire GUI.
+     * @param evt 
+     */
     private void printMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printMenuItemActionPerformed
         PrintUtilities.printComponent(this);
     }//GEN-LAST:event_printMenuItemActionPerformed
 
+    /**
+     * Prints only the current user's statistics.
+     * @param evt 
+     */
     private void printStatisticsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printStatisticsMenuItemActionPerformed
         PrintUtilities.printComponent(this.statisticsPanel);
     }//GEN-LAST:event_printStatisticsMenuItemActionPerformed
 
+    /**
+     * Shows an extended version of the user's statistics.
+     * @param evt 
+     */
     private void statisticsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statisticsMenuItemActionPerformed
         StatisticsPanel stats = new StatisticsPanel(player, currentScore);
         stats.setVisible(true);
         stats.dispose();
     }//GEN-LAST:event_statisticsMenuItemActionPerformed
 
+    /**
+     * Displays a list of the 10 highest scores.
+     * @param evt 
+     */
     private void highScoreMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_highScoreMenuItemActionPerformed
         ArrayList<Player> sortedPlayers = new ArrayList<>(this.players);
         insertionSort(sortedPlayers);
         String highScores = "";
         for (int i = 0; i < sortedPlayers.size() && i < 10; i++) {
-            Player player = sortedPlayers.get(i);
-            highScores += (i+1) + ". " + player.getName() 
-                    + ": " + player.getHighScore() + "\n";
+            Player tempPlayer = sortedPlayers.get(i);
+            highScores += (i+1) + ". " + tempPlayer.getName() 
+                    + ": " + tempPlayer.getHighScore() + "\n";
         }
         JOptionPane.showMessageDialog(null, 
             "High Scores:\n" + highScores,
@@ -834,10 +861,8 @@ public class CardGame24GUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CardGame24GUI().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new CardGame24GUI().setVisible(true);
         });
     }
 

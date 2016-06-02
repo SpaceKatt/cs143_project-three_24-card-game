@@ -18,15 +18,8 @@ package card_game_24.gui_dialogs;
 
 import card_game_24.objects.Player;
 import java.awt.Toolkit;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import card_game_24.utilities.PlayerXMLFileWriter;
 import javax.swing.JOptionPane;
 
 /**
@@ -125,49 +118,6 @@ public class PlayerSelector extends javax.swing.JDialog {
         list.set(indexOne, list.get(indexTwo));
         list.set(indexTwo, temp);
     }
-    
-//    /**
-//     * Grabs all the file names in `src/card_game_24/data` so we can give
-// the user a list of playerNames to choose from.
-//     * @return An arraylist of database file paths.
-//     */
-//    public static ArrayList<String> grabFileNames() {
-//        File folder = new File("src/card_game_24/data");
-//        File[] listOfFiles = folder.listFiles();
-//        ArrayList<String> list = new ArrayList<>();
-//        for (File file : listOfFiles) {
-//            list.add(file.toString());
-//        }
-//        return list;
-//    }
-
-//    /**
-//     * Generates a String so we can name our new Database uniquely.
-//     * @return String of todays date, made unique by integer addition.
-//     */
-//    public String generateFileName() {
-//        Date today = new Date();
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMMM-yy");
-//        String dateNow = "src/card_game_24/data/" + dateFormat.format(today);
-//        String canidateName = dateNow;
-//        int additionalPart = 0;
-//        while (fileAlreadyExists(canidateName + ".xml")) {
-//            additionalPart++;
-//            canidateName = dateNow + "-" + additionalPart;
-//        }
-//        return canidateName + ".xml";
-//    }
-//    
-//    /** 
-//     * @return true if the file name already exists
-//     * @param name Name of the file we are looking for
-//     */ 
-//    private boolean fileAlreadyExists(String name) {
-//        if (!playerNames.isEmpty() && playerNames.get(0).contains("\\")) {
-//            name = name.replace("/", "\\");
-//        }
-//        return this.playerNames.contains(name);     
-//    }
     
     /**
      * This method is called from within the constructor to initialize the form.

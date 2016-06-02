@@ -29,7 +29,7 @@ package card_game_24.objects;
  * 
  * @author Thomas Kercheval
  */
-public class Player extends Person {
+public class Player extends Person implements Comparable<Player> {
     /** The highest score this player achieved in a hand. */
     private int highScore;
     /** The total score this player has achieved in all hands. */
@@ -203,5 +203,17 @@ public class Player extends Person {
      */
     public void addPossibleScore(int amount) {
         this.possibleScore += amount;
+    }
+    
+    @Override
+    /**
+     * Compares one Player to this one by calling the compareTo method on
+     * both players names.
+     * @return Returns The compareTo of the Integer class between the two
+     * players high score.
+     */
+    public int compareTo(Player otherPlayer) {
+        return (new Integer(getHighScore()))
+                .compareTo(otherPlayer.getHighScore());
     }
 }

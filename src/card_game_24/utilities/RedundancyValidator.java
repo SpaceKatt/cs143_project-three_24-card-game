@@ -57,7 +57,7 @@ public class RedundancyValidator {
     
     /**
      * Since we are given an int[] through the constructor of values, that do
-     * not reflect the liter value of the cards they represent, we need to 
+     * not reflect the literal value of the cards they represent, we need to 
      * modify them and store then all in a String array before we may
      * feed them into a HashSet.
      * @param hand The list of numbers we are validating, though need to be
@@ -97,8 +97,8 @@ public class RedundancyValidator {
     }
     
     /**
-     * Create general representation of an expression form. (i.e., replace
-     * all numbers with variables.
+     * Create general representation of an expression form (i.e., replace
+     * all numbers with variables).
      * @param express The expression we want a general form of.
      * @return The general for of an expression.
      */
@@ -179,8 +179,10 @@ public class RedundancyValidator {
                 String testExpression = express;
                 String genExpression = form;
                 for (String number: this.currentHand) {
-                    testExpression = testExpression.replaceAll(number, testInt[i]);
-                    genExpression = genExpression.replaceAll(number, testInt[i]);
+                    testExpression = testExpression.replaceAll(number, 
+                            testInt[i]);
+                    genExpression = genExpression.replaceAll(number, 
+                            testInt[i]);
                     i++;
                 }
                 
@@ -188,9 +190,6 @@ public class RedundancyValidator {
                         evaluateInfixExpression(genExpression))) {
                     counter++;
                 }
-//                System.out.println(testExpression + " :vs: " + genExpression 
-//                    + ", Yields: " + evaluateInfixExpression(testExpression) 
-//                        + " :vs: " + evaluateInfixExpression(genExpression));
             }
             if (counter == 4) {
                 return true;

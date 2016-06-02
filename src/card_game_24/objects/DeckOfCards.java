@@ -35,7 +35,7 @@ import javax.swing.ImageIcon;
  * Platform: jdk 1.8.0_14; NetBeans IDE 8.1; Windows 10
  * Course: CS 143
  * Created on May 23, 2016, 4:02 PM
- * Revised on May 23, 2016, 5:07 PM
+ * Revised on Jun 1, 2016, 11:15 PM
  * 
  * @author Thomas Kercheval
  */
@@ -50,7 +50,9 @@ public class DeckOfCards {
      * which card is in play.
      */
     private int[] hand;
+    /** The height at which we wish our images to be displayed at. */
     private static final int IMAGE_WIDTH = 100;
+    /** The width at which we wish our images to be displayed at. */
     private static final int IMAGE_HEIGHT = 145;
     
     /**
@@ -184,8 +186,10 @@ public class DeckOfCards {
     }
     
     /**
-     * Needs Javadoc
-     * @param deck 
+     * Resizes every ImageIcon value inside a HashMap with Strings as keys.
+     * @param deck The deck of cards we are resizing the images of, it's
+     * a HashMap with Strings for keys and ImageIcons (which we are resizing)
+     * as values.
      */
     private void rescaleDeckImages(HashMap<String, ImageIcon> deck) {
         for (int i = 1; i < 53; i++) {
