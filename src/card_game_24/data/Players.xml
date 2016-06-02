@@ -12,13 +12,13 @@
     <highScore>0</highScore>
     <totalScore>0</totalScore>
     <possibleScore>0</possibleScore>
-    <totalGames>3</totalGames>
+    <totalGames>6</totalGames>
   </Player>
   <Player>
     <name>Thomas</name>
     <highScore>1</highScore>
-    <totalScore>3</totalScore>
+    <totalScore>4</totalScore>
     <possibleScore>0</possibleScore>
-    <totalGames>7</totalGames>
+    <totalGames>10</totalGames>
   </Player>
 </Players>

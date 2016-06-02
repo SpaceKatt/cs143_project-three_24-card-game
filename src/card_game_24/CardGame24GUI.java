@@ -599,6 +599,7 @@ public class CardGame24GUI extends javax.swing.JFrame {
                        + redundoValido.getGeneralForms(),
                         "Redundant expression.",
                         JOptionPane.INFORMATION_MESSAGE);
+                    this.validLabel.setText("Redundant Expression");
                 } else {
                     // If the double returned by evaluating our expression
                     // is close enough to 24 as to take into consideration 
