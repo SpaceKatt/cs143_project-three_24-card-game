@@ -148,22 +148,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="evaulateMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="solutionsMenuItem">
-              <Properties>
-                <Property name="mnemonic" type="int" value="111"/>
-                <Property name="text" type="java.lang.String" value="Find all solutions"/>
-                <Property name="toolTipText" type="java.lang.String" value="Finds all he solutions to the current hand and displays them"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="combinationMenuItem">
-              <Properties>
-                <Property name="mnemonic" type="int" value="99"/>
-                <Property name="text" type="java.lang.String" value="Enter Combination"/>
-                <Property name="toolTipText" type="java.lang.String" value="Find all solutions to a card combination of your choosing!"/>
-              </Properties>
-            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="helpMenu">
@@ -231,19 +215,6 @@
         <Property name="rows" type="int" value="1"/>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="solutionButton">
-          <Properties>
-            <Property name="mnemonic" type="int" value="115"/>
-            <Property name="text" type="java.lang.String" value="Find Solution(s)"/>
-            <Property name="toolTipText" type="java.lang.String" value="Finds all he solutions to the current hand and displays them"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="solutionTextField">
-          <Properties>
-            <Property name="editable" type="boolean" value="false"/>
-            <Property name="toolTipText" type="java.lang.String" value="Displays one valid solution, for more click `Find Solution(s)`"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="validLabel">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="11"/>

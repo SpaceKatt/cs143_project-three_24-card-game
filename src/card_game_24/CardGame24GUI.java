@@ -249,8 +249,6 @@ public class CardGame24GUI extends javax.swing.JFrame {
     private void initComponents() {
 
         upperControlPanel = new javax.swing.JPanel();
-        solutionButton = new javax.swing.JButton();
-        solutionTextField = new javax.swing.JTextField();
         validLabel = new javax.swing.JLabel();
         shuffleButton = new javax.swing.JButton();
         statisticsPanel = new javax.swing.JPanel();
@@ -292,9 +290,6 @@ public class CardGame24GUI extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         shffleMenuItem = new javax.swing.JMenuItem();
         evaulateMenuItem = new javax.swing.JMenuItem();
-        jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        solutionsMenuItem = new javax.swing.JMenuItem();
-        combinationMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
 
@@ -305,15 +300,6 @@ public class CardGame24GUI extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(500, 400));
 
         upperControlPanel.setLayout(new java.awt.GridLayout(1, 4));
-
-        solutionButton.setMnemonic('s');
-        solutionButton.setText("Find Solution(s)");
-        solutionButton.setToolTipText("Finds all he solutions to the current hand and displays them");
-        upperControlPanel.add(solutionButton);
-
-        solutionTextField.setEditable(false);
-        solutionTextField.setToolTipText("Displays one valid solution, for more click `Find Solution(s)`");
-        upperControlPanel.add(solutionTextField);
 
         validLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         validLabel.setToolTipText("Will tell you if your expression is valid, incorrect, or invalid");
@@ -389,7 +375,7 @@ public class CardGame24GUI extends javax.swing.JFrame {
 
         getContentPane().add(expressionPanel, java.awt.BorderLayout.SOUTH);
 
-        logoPanel.setLayout(new java.awt.GridLayout());
+        logoPanel.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/card_game_24/images/kinglogo-sidebar.png"))); // NOI18N
         jLabel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 1));
@@ -547,17 +533,6 @@ public class CardGame24GUI extends javax.swing.JFrame {
             }
         });
         gameMenu.add(evaulateMenuItem);
-        gameMenu.add(jSeparator2);
-
-        solutionsMenuItem.setMnemonic('o');
-        solutionsMenuItem.setText("Find all solutions");
-        solutionsMenuItem.setToolTipText("Finds all he solutions to the current hand and displays them");
-        gameMenu.add(solutionsMenuItem);
-
-        combinationMenuItem.setMnemonic('c');
-        combinationMenuItem.setText("Enter Combination");
-        combinationMenuItem.setToolTipText("Find all solutions to a card combination of your choosing!");
-        gameMenu.add(combinationMenuItem);
 
         cardsMenuBar.add(gameMenu);
 
@@ -725,7 +700,8 @@ public class CardGame24GUI extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, 
                     "Invalid name given."
-                  + "\nName cannot be 'Guest'",
+                  + "\nName cannot be 'Guest'"
+                  + "\n\nName must be less than 8 Characters long.",
                     "Player name not edited...",
                     JOptionPane.INFORMATION_MESSAGE);
         }
@@ -873,7 +849,6 @@ public class CardGame24GUI extends javax.swing.JFrame {
     private javax.swing.JLabel cardThreeLabel;
     private javax.swing.JLabel cardTwoLabel;
     private javax.swing.JMenuBar cardsMenuBar;
-    private javax.swing.JMenuItem combinationMenuItem;
     private javax.swing.JLabel currentScoreLabel;
     private javax.swing.JTextField currentScoreTextField;
     private javax.swing.JMenuItem deleteUserMenuItem;
@@ -893,7 +868,6 @@ public class CardGame24GUI extends javax.swing.JFrame {
     private javax.swing.JTextField highScoreTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
@@ -904,9 +878,6 @@ public class CardGame24GUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem searchUserMenuItem;
     private javax.swing.JMenuItem shffleMenuItem;
     private javax.swing.JButton shuffleButton;
-    private javax.swing.JButton solutionButton;
-    private javax.swing.JTextField solutionTextField;
-    private javax.swing.JMenuItem solutionsMenuItem;
     private javax.swing.JMenuItem statisticsMenuItem;
     private javax.swing.JPanel statisticsPanel;
     private javax.swing.JMenuItem switchUserMenuItem;

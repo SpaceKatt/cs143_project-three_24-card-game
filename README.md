@@ -44,3 +44,7 @@ Four cards are dealt and the player must use four arithmetic operators (i.e.,
   - This project is backed up on GitHub.
   - This project is licensed under GPL v3.0
   - This project was developed on Windows 10.
+  - Moving around ones that are being multiplied/divided may give additional
+      points and are counted as distinct solutions.
+  - Next step would be to generate all solutions for a given hand, then
+      generate all possible hands drawn from the deck.

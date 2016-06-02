@@ -3,7 +3,7 @@
   <Player>
     <name>&lt;&amp;&gt;</name>
     <highScore>3</highScore>
-    <totalScore>5</totalScore>
+    <totalScore>6</totalScore>
     <possibleScore>0</possibleScore>
     <totalGames>12</totalGames>
   </Player>
@@ -19,6 +19,6 @@
     <highScore>1</highScore>
     <totalScore>3</totalScore>
     <possibleScore>0</possibleScore>
-    <totalGames>5</totalGames>
+    <totalGames>7</totalGames>
   </Player>
 </Players>

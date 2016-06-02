@@ -102,8 +102,10 @@ public class EvaluateExpression {
         } else if (op == '/') {
             result = op2 / op1;
         } else {
-            System.out.println("OPATORNOTRECOGNIZED");
-            System.exit(0);
+            while (true) {
+                operandStack.pop(); // Declare the expression invalid
+                                    // by throwing a EmptyStackException.
+            }
         }
         operandStack.push(result);
     }

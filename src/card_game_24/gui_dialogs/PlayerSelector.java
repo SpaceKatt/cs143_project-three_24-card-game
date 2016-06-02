@@ -303,7 +303,8 @@ public class PlayerSelector extends javax.swing.JDialog {
         } else {
             JOptionPane.showMessageDialog(null, 
                     "Invalid name given."
-                  + "\nName cannot be 'Guest'",
+                  + "\nName cannot be 'Guest'"
+                  + "\n\nName must be less than 8 Characters long.",
                     "New player not created...",
                     JOptionPane.INFORMATION_MESSAGE);
         }
@@ -324,7 +325,8 @@ public class PlayerSelector extends javax.swing.JDialog {
      * @return True if the name is valid.
      */
     public static boolean isValidName(String name) {
-        return !name.equals("Guest") && !name.equals("guest");
+        return !name.equals("Guest") && !name.equals("guest") 
+                && name.length() <= 8;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
